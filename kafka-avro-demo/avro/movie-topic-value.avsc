@@ -1,0 +1,40 @@
+{
+    "type": "record",
+    "namespace": "com.stackstalk",
+    "name": "MovieDetails",
+    "fields": [
+        {
+            "name": "imdbID",
+            "type": "string"
+        },
+        {
+            "name": "Title",
+            "type": "string"
+        },
+        {
+            "name": "Year",
+            "type": "int"
+        },
+        {
+            "name": "Language",
+            "type": "string"
+        },
+        {
+            "name": "Director",
+            "type": "string"
+        },
+        {
+            "name": "Actors",
+            "type": {
+              "type": "array",
+              "items": {
+                 "type": "string"
+              }
+            }
+        },
+        {
+            "name": "imdbRating",
+            "type": "float"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "type": "record",
+    "namespace": "com.stackstalk",
+    "name": "MovieMetaData",
+    "fields": [
+        {
+            "name": "imdbID",
+            "type": "string"
+        },
+        {
+            "name": "Title",
+            "type": "string"
+        }
+    ]
+}
