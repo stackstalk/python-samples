@@ -5,22 +5,6 @@ from confluent_kafka import Producer, KafkaException
 from confluent_kafka.avro import AvroConsumer
 from confluent_kafka import avro
 
-
-def acked(err, msg):
-    if err is not None:
-        print("Failed to deliver message: %s: %s" % msg.value().decode('utf-8'), str(err))
-    else:
-        print("Message produced: %s" % msg.value().decode('utf-8'))
-
-
-def load_avro_schema_from_file():
-
-    key_schema = avro.load("avro/movie-topic-key.avsc")
-    value_schema = avro.load("avro/movie-topic-value.avsc")
-
-    return key_schema, value_schema
-
-
 def read_data():
 
     consumer_config = {
