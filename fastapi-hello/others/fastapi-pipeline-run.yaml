@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: fastapi-pipeline-run
+spec:
+  taskRunSpecs:
+    - pipelineTaskName: build
+      taskServiceAccountName: build-bot
+    - pipelineTaskName: deploy
+      taskServiceAccountName: kn-deployer-account
+  pipelineRef:
+    name: fastapi-pipeline 
+  workspaces:
+    - name: my-source
+      persistentVolumeClaim:
+        claimName: my-source
+      subPath: my-subdir

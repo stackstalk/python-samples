@@ -1,0 +1,53 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: fastapi-pipeline
+spec:
+  workspaces:
+    - name: my-source
+  tasks:
+  - name: clone-repo 
+    taskRef:
+      kind: Task
+      name: git-cli
+    params:
+      - name: GIT_SCRIPT 
+        value: |
+          rm -rf $(workspaces.source.path)/python-samples
+          git init
+          git remote remove origin
+          git remote add origin https://github.com/stackstalk/python-samples.git
+          git pull origin main
+    workspaces:
+     - name: source 
+       workspace: my-source
+  - name: build
+    taskRef:
+      kind: Task
+      name: buildah
+    runAfter: 
+      - clone-repo
+    params:
+      - name: DOCKERFILE
+        value: ./Dockerfile
+      - name: CONTEXT
+        value: $(workspaces.source.path)/fastapi-hello
+      - name: IMAGE
+        value: registry.docker.com/userid/myapp:latest
+    workspaces:
+      - name: source
+        workspace: my-source
+  - name: deploy
+    taskRef: 
+      kind: Task
+      name: kn
+    runAfter:
+      - build
+    params:
+      - name: ARGS
+        value:
+        - "service"
+        - "create"
+        - "hello"
+        - "--force"
+        - "--image=registry.docker.com/userid/myapp:latest"
