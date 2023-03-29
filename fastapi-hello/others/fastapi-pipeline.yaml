@@ -51,3 +51,5 @@ spec:
         - "hello"
         - "--force"
         - "--image=registry.docker.com/userid/myapp:latest"
+	- "--probe-liveness=http:localhost:9089:health"
+        - "--probe-readiness=http:localhost:9089:health"
